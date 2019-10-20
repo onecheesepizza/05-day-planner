@@ -72,9 +72,9 @@ function readPlans(date) {
     }
 };
 
-// save plans to localStorage
-function saveDate() {
-    console.log('saveDate()');
+// save all hours for current day to localStorage
+function saveAllHours() {
+    console.log('saveAllHours()');
     // build an object from input field values
     let dateObject = {
         hour0: $("#inputHour0").val(),
@@ -91,6 +91,51 @@ function saveDate() {
     };
     //save dateObject to localStorage
     localStorage.setItem(dateIndex, JSON.stringify(dateObject));
+    console.log(localStorage);
+}
+
+// save only clicked hour to localStorage
+function saveHour() {
+    console.log('saveHour()');
+    //hour to update from event target
+    let hour = event.target.value;
+    //create string from event target to get input field value
+    let newRecordID="#inputHour"+hour[hour.length-1];
+    //get value from input field associated with specific button clicked
+    let newRecord=$(newRecordID).val();
+    //set localStorage key from value of clicked button 
+    let recordToUpdate=event.target.value;
+    //initialize object to write to localStorage
+    let dateObject;
+    //if local storage is not empty and has data for the current date, 
+    //build new record using data already in localStorage,
+    //disregarding the data on the page aside from the specific hour to be updated.
+    //this way only the record associated with the clicked button is updated.
+    if ((localStorage.length===0) || (localStorage.getItem(dateIndex)===null)){
+        console.log("no data in localStorage, empty object returned", emptyDateObject);
+        dateObject = {
+            hour0: $("#inputHour0").val(),
+            hour1: $("#inputHour1").val(),
+            hour2: $("#inputHour2").val(),
+            hour3: $("#inputHour3").val(),
+            hour4: $("#inputHour4").val(),
+            hour5: $("#inputHour5").val(),
+            hour6: $("#inputHour6").val(),
+            hour7: $("#inputHour7").val(),
+            hour8: $("#inputHour8").val(),
+            hour9: $("#inputHour9").val(),
+            hour10: $("#inputHour10").val()
+        };
+    //return data for current date it exists
+    } else {
+        dateObject = JSON.parse(localStorage.getItem(dateIndex));
+    }
+    console.log("dateObject",dateObject);
+    //add new record to the date object
+    dateObject[recordToUpdate]=newRecord;
+    console.log("dateObject newRecord",dateObject);
+    //write the object containing the new record to localStorage
+    localStorage.setItem(dateIndex, JSON.stringify(dateObject));
 }
 
 // render page for date provided
@@ -106,7 +151,8 @@ function renderPage(){
         <div id="header">
         <h1>Day Planner</h1>
         <h2>${dateReadable}</h2>
-        <button id="clearDay">Clear Day\'s Tasks</button>
+        <button id="clearDay" class="headerButton">Clear All</button>
+        <button id="saveAll" class="headerButton">Save All</button>
         </div>
         <ul id="calendar" class="day" data-date="${dateIndex}">
         `;
@@ -127,7 +173,7 @@ function renderPage(){
             <form>
                 <label>${workDayHour.format('h a')}</label>
                 <input type="text" id="inputHour${i}" value="${plans["hour"+i]}">
-                <button type="submit" class="save">&#128190</button>
+                <button type="submit" class="save" value="hour${i}">&#128190</button>
             </form>
         </li>
         `;
@@ -158,18 +204,23 @@ function clearDate(){
 
 // event listeners
 function addEventListeners() {
-    // save plans
+    // save hour
     $("button.save").on("click", function(){
         event.preventDefault();
-        // save plans to localStorage
-        saveDate();
+        // save hour to localStorage
+        saveHour();
     });
     // clear plans
     $("#clearDay").on("click", function(){
         //clear current day's tasks on page
         clearDate();
         //write tasks to localStoge
-        saveDate()
+        saveAllHours()
+    });
+    // save all hours
+    $("#saveAll").on("click", function(){
+        // save plans to localStorage
+        saveAllHours();
     });
 }
 

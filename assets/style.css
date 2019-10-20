@@ -66,17 +66,18 @@ button {
     background-color:rgba(255, 255, 255, 0.5);
     transition: all .2s ease;
 }
-#clearDay {
+.headerButton {
     font-size:medium;
+    width:7em;
     border:1px solid black;
     margin:1em;
     padding:.5em;
     background-color:rgba(255, 255, 255, .5);
 }
-#clearDay:hover{
+.headerButton:hover{
     background-color:rgba(255, 255, 255, 1);
 }
-#clearDay:active{
+.headerButton:active{
     background-color:rgb(170, 213, 170);
 }
 button {
