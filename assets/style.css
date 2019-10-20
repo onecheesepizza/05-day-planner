@@ -64,7 +64,7 @@ button {
     height: auto;
     border-radius:.25em;
     background-color:rgba(255, 255, 255, 0.5);
-    transition: all .2s ease;
+    transition: background-color .2s ease;
 }
 .headerButton {
     font-size:medium;
@@ -96,7 +96,7 @@ input {
     border:none;
     margin:0em;
     padding:.25em;
-    transition: all .2s ease;
+    transition: background-color .2s ease;
     width:12em;
 }
 input:focus {
@@ -121,4 +121,50 @@ input:focus {
 }
 .future input:hover {
     background-color:rgba(255, 255, 255, 0.523);
+}
+/* responsive styles */
+@media only screen and (max-width: 475px) {
+    #container{
+        background-color: rgba(255, 255, 255, 0.65);
+    }
+    #calendar{
+        margin: .5em auto;
+    }
+    li {
+        display:block;
+    }
+    form {
+        margin: 0em 1em;
+        position:relative;
+    }
+    .headerButton {
+        margin:.5em;
+    }
+    button.save {
+        display:block;
+        position:absolute;
+        top:4px;
+        right:-.5em;
+        font-size:.8em;;
+    }
+    label{
+        float:right;
+        display:inline;
+        position:relative;
+        right:1em;
+        padding:.2em;
+        font-size:.95em;
+    }
+    input {
+        width:100%;
+        display:inline;
+        border:1px solid grey;
+        font-size:.85em;
+    }
+    h1 {
+        font-size:1.5em;
+    }
+    h2 {
+        font-size:1em;
+    }
 }
